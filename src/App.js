@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
 import Child from './components/Child';
-import {Link, Route, Switch} from 'react-router-dom';
+import List from './components/List';
+import {Route, Switch} from 'react-router-dom';
 
 class App extends  React.Component {
 
@@ -27,20 +28,14 @@ class App extends  React.Component {
     return (
       <div className="App">
         <h1 className="title">LinkeDon</h1>
-        <ul>
-          {this.state.data.map( (item, index) =>
-            <li key= {index} id= {index}> <Link to='/child/id'>Pincha aqui</Link>
-              <div className="card_container">
-              <img src={item.picture.medium} alt={item.name.first}/>
-              <h2 className="card_name">Nombre: {item.name.first} {item.name.last}</h2>
-              <h3 className="card_city">Ciudad: {item.location.city}</h3>
-              <h4 className="card_age">Edad: {item.dob.age}</h4>
-              </div>
-            </li>)}
-        </ul>
-          <Switch>
-            <Route path='/child/:id' render={ props => <Child match={props.match} data={this.state.data}/> } />
-          </Switch>
+        <Switch>
+          <Route exact path='/' render={() =>
+            <List data={this.state.data} />
+          }/>
+          <Route path='/child/:id' render={(routerProps) => 
+            <Child match={routerProps.match} data={this.state.data} />
+          }/>
+        </Switch>
       </div>
     );
   }
